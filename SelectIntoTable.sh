@@ -30,6 +30,6 @@ then
       esac
     done
 else
-    echo -e "Table Not Exists"
-    source ./SelectIntoTable.sh
+  echo -e "Table Not Exists"
+   source ./SelectIntoTable.sh
 fi	

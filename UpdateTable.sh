@@ -87,12 +87,12 @@ function update()
             fi   
         else
             echo -e "Wrong Column"
-            source ./Connect-Menu.sh
+            update
         fi
 
     else
         echo -e "Table Not Exists"
-        source ./Connect-Menu.sh
+        update
     fi
     }
 update    #calling update function

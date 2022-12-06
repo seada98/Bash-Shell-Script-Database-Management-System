@@ -4,7 +4,7 @@
 if [[ `cat ./database/$dbname/$tablename | wc -l` == 1 ]]
 then 
     echo -e "Table Empty"
-    source ./Connect-Menu.sh
+    source ./SelectIntoTable.sh
 fi    
 echo -e "Select Record\n"
 

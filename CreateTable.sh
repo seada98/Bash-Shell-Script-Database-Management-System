@@ -4,7 +4,7 @@ declare -a cnamearray
 declare -a ctypearray 
 re='^[0-9]+$'
 
-read -p "Enter Table Name " tbname
+read -p "Enter Table Name : " tbname
 while [[ -z $tbname ]] || [[ $tbname == *['!''@#/$\"*{^})(+_/|,;:~`.%&.=-]>[<?']* ]] || [[ $tbname =~ [0-9] ]]
 do 
     echo -e "Invalid Input"
@@ -17,15 +17,21 @@ do
     source ./CreateTable.sh
 done
 #read column number from user
-read -p "Enter Number Of Columns: " cnumber
+read -p "Enter Number Of Columns : " cnumber
 # function to check validation of cnumber
 function valcnumber()
 {
-  if ! [[ $cnumber =~ $re ]]
-  then
+  while [[ -z $cnumber ]] || [[ $cnumber == *['!''@#/$\"*{^})(+_/|,;:~`.%&.=-]>[<?']* ]] || [[ $cnumber =~ [a-zA-Z] ]]
+do 
     echo -e "Invalid Input It Must Be A Number"
-    source ./Connect-Menu.sh
-  fi   
+    read -p "PLease Enter Number Of Columns Again : " cnumber
+done
+  #if ! [[ $cnumber =~ $re ]]
+  #then
+   # echo -e "Invalid Input It Must Be A Number"
+    #read -p "PLease Enter Number Of Columns Again : " cnumber
+    #source ./Connect-Menu.sh
+  #fi   
 }
 valcnumber                    #calling function
 export cnumber

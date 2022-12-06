@@ -4,7 +4,7 @@ then
     echo -e "No Table Found\n"
     source ./Connect-Menu.sh   
 else
-    ls ./database/$dbname
+    ls -I "*Type" ./database/$dbname
     source ./Connect-Menu.sh
 fi
 

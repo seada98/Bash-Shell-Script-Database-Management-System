@@ -19,15 +19,15 @@ do
       case "$response" in
        [yY]) 
       rm -r ./database/$name  
-      echo -e "Database Deleted Successfully "
-      source ./main_menu.sh
+      echo -e "\nDatabase Deleted Successfully "
+      source ./Main_menu.sh
         ;;
       [Nn])
-      echo -e "Database Not Deleted"
+      echo -e "\nDatabase Not Deleted"
       source ./Main_menu.sh
        ;;  
     *)
-        echo -e "Invalid Input Try Again"
+        echo -e "\nInvalid Input Try Again"
         source ./DropDb.sh
         ;;
        esac 

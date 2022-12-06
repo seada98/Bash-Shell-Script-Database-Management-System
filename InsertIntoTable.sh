@@ -8,11 +8,11 @@ echo -e "Insert Into Table\n"
 re='^[0-9]+$'
 read -p "Enter Table You Want To Insert : " tablename
 
-while [[ -z $tablename ]] || [[ $tablebname == *['!''@#/$\"*{^})(+_/|,;:~`.%&.=-]>[<?']* ]]
-do 
-    echo -e "Invalid Input"
-    read -p "PLease Enter Table Name Again :" tablename
-done
+#while [[ -z $tablename ]] || [[ $tablebname == *['!''@#/$\"*{^})(+_/|,;:~`.%&.=-]>[<?']* ]]
+#do 
+ #   echo -e "Invalid Input"
+ #   read -p "PLease Enter Table Name Again :" tablename
+#done
 declare -a valueofcnamearray
 
 if [ -f ./database/$dbname/$tablename ]
@@ -74,8 +74,17 @@ done
     done
     echo "" >> ./database/$dbname/$tablename
     else
-        echo -e "Table Not Exists"
-        source ./Connect-Menu.sh
+        if [[ $tablebname ]] || [[ tablebname != $tablebname ]] 
+        then  
+          echo -e "Table Not Exists"
+          read -p "PLease ReEnter Table Name Again : " tablebname
+        else   
+            
+        fi
+            
+    
+        #echo -e "Table Not Exists"
+        #source ./Connect-Menu.sh
 fi
 echo -e "Insertion Complete"
 source ./Connect-Menu.sh

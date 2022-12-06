@@ -11,7 +11,7 @@ do
       2) source ./ListDB.sh ;;
       3) source ./ConnectDB.sh ;;
       4) source ./DropDB.sh ;;
-      5) break ;;
+      5) exit ;;
       *) echo -e "\nInvalid Option" 
             source ./Main_menu.sh;; 
 esac

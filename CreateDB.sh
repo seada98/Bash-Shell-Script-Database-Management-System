@@ -1,9 +1,9 @@
 echo -e "\nCreate Database\n"
-read -p "Enter Database Name: " name
+read -p "Enter Database Name : " name
 while [[ -z $name ]] || [[ $name == *['!''@#/$\"*{^})(+|,;:~`._%&/=-]>[<?']* ]] || [[ $name =~ [0-9] ]]
 do 
             echo -e "ReInvalid Input"
-            read -p "PLease Enter Database Name Again :" name
+            read -p "PLease Enter Database Name Again : " name
 done
 if [ -d ./database/$name ] 
 then

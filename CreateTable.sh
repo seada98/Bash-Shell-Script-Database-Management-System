@@ -49,7 +49,7 @@ do
   done
  
   ##### check if the cname is exists or not 
-  while [[ "${cnamearray[*]}" =~ "$cname" ]]
+  while [[ "${cnamearray[$tbname]}" =~ "$cname" ]]
   do
     echo -e "This Name Is Already Exists"
     read -p "PLease Enter Column Name Again : " cname

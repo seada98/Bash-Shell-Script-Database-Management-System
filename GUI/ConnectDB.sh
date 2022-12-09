@@ -6,7 +6,7 @@ fi
 dbname=$(whiptail --title "Connect Database" --inputbox "Please Enter Database You Want To Connect: " 8 40 3>&1 1>&2 2>&3)
 exitstatus=$?
 if [ $exitstatus = 0 ]; then
-         ...
+         :
       else
          source ./main.sh
       fi

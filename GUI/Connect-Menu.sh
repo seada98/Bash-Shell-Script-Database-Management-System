@@ -8,9 +8,9 @@ MAIN=$(whiptail --title "Welcome $USER" --menu "Choose an option" 25 60 15 \
     "7" "Update From Table" \
     "8" "Back to menu" 3>&1 1>&2 2>&3)
 
-    exitstatus=$?
+exitstatus=$?
 if [ $exitstatus = 0 ]; then
-         ...
+         :
       else
          source ./main.sh
       fi

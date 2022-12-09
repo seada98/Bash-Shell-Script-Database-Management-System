@@ -42,5 +42,6 @@
 
 ## Contributors :
 
-- Mohamed Abdelahad Abdelhakim Seada
-- Mahmoud Ibrahim Mohamed Mousa
+-[Mohamed A. Seada](https://github.com/seada98).
+-[Mahmoud Ibrahim](https://github.com/mahmoud-24).
+

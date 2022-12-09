@@ -2,7 +2,7 @@
 name=$(whiptail --title "Create Database" --inputbox "Enter Database Name : " 8 40 3>&1 1>&2 2>&3)
 exitstatus=$?
       if [ $exitstatus = 0 ]; then
-         ...
+         :
       else
          source ./main.sh
       fi
@@ -12,7 +12,7 @@ do
     name=$(whiptail --title "It Must Be Only Characters" --inputbox "PLease Enter Database Name Again : " 8 40 3>&1 1>&2 2>&3) 
     exitstatus=$?
       if [ $exitstatus = 0 ]; then
-         ...
+         :
       else
          source ./main.sh
       fi

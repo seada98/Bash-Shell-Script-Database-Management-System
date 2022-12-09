@@ -16,7 +16,7 @@ then
       whiptail --title "Error" --msgbox "$dbname Database Not Exists Create New " 8 78
       exitstatus=$?
       if [ $exitstatus = 0 ]; then
-         ...
+         :
       else
          source ./main.sh
       fi

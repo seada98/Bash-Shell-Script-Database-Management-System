@@ -1,7 +1,7 @@
 tbname=$(whiptail --title "Create Table" --inputbox "Enter Table Name : " 8 40 3>&1 1>&2 2>&3)
 exitstatus=$?
       if [ $exitstatus = 0 ]; then
-         ...
+         :
       else
          source ./Connect-Menu.sh
       fi
@@ -15,7 +15,7 @@ do
     tbname=$(whiptail --title "Invalid Input" --inputbox "PLease Enter Table Name Again : " 8 40 3>&1 1>&2 2>&3)
     exitstatus=$?
       if [ $exitstatus = 0 ]; then
-         ...
+         :
       else
          source ./Connect-Menu.sh
       fi
@@ -30,7 +30,7 @@ done
 cnumber=$(whiptail --title "Table Configuration" --inputbox "Enter Number Of Columns : " 8 40 3>&1 1>&2 2>&3)
 exitstatus=$?
       if [ $exitstatus = 0 ]; then
-         ...
+         :
       else
       rm ./database/$dbname/$tbname ./database/$dbname/$tbname.Type 
          source ./Connect-Menu.sh
@@ -43,18 +43,13 @@ do
    cnumber=$(whiptail --title "Invalid Input It Must Be A Number" --inputbox "PLease Enter Number Of Columns Again : " 8 40 3>&1 1>&2 2>&3)
   exitstatus=$?
       if [ $exitstatus = 0 ]; then
-         ...
+         :
       else
       rm ./database/$dbname/$tbname ./database/$dbname/$tbname.Type
          source ./Connect-Menu.sh
       fi
 done
-  #if ! [[ $cnumber =~ $re ]]
-  #then
-   # echo -e "Invalid Input It Must Be A Number"
-    #read -p "PLease Enter Number Of Columns Again : " cnumber
-    #source ./Connect-Menu.sh
-  #fi   
+
 }
 valcnumber                    #calling function
 export cnumber
@@ -66,7 +61,7 @@ do
   cname=$(whiptail --title "Table Configuratio" --inputbox "Enter Name Of Column $((i+1)): " 8 40 3>&1 1>&2 2>&3)
   exitstatus=$?
       if [ $exitstatus = 0 ]; then
-         ...
+         :
       else
       rm ./database/$dbname/$tbname ./database/$dbname/$tbname.Type
          source ./Connect-Menu.sh
@@ -76,7 +71,7 @@ do
     cname=$(whiptail --title "Invalid Input" --inputbox "PLease Enter column Name Again : " 8 40 3>&1 1>&2 2>&3)
     exitstatus=$?
       if [ $exitstatus = 0 ]; then
-         ...
+         :
       else
       rm ./database/$dbname/$tbname ./database/$dbname/$tbname.Type
          source ./Connect-Menu.sh
@@ -89,7 +84,7 @@ do
     cname=$(whiptail --title "This Name Is Already Exists" --inputbox "PLease Enter Column Name Again : " 8 40 3>&1 1>&2 2>&3)
     exitstatus=$?
       if [ $exitstatus = 0 ]; then
-         ...
+         :
       else
       rm ./database/$dbname/$tbname ./database/$dbname/$tbname.Type
          source ./Connect-Menu.sh
@@ -99,7 +94,7 @@ do
      ctype=$(whiptail --title "Table Configuratio" --inputbox "Enter DataType Of Column $((i+1)): [string/int] " 8 40 3>&1 1>&2 2>&3)
      exitstatus=$?
       if [ $exitstatus = 0 ]; then
-         ...
+         :
       else
       rm ./database/$dbname/$tbname ./database/$dbname/$tbname.Type
          source ./Connect-Menu.sh
@@ -111,7 +106,7 @@ do
   ctype=$(whiptail --title "Invalid DataType" --inputbox "Enter DataType of column $((i+1)): [string/int] " 8 40 3>&1 1>&2 2>&3)
   exitstatus=$?
       if [ $exitstatus = 0 ]; then
-         ...
+         :
       else
       rm ./database/$dbname/$tbname ./database/$dbname/$tbname.Type
          source ./Connect-Menu.sh

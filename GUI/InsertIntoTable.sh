@@ -1,32 +1,33 @@
 if [ `ls ./database/$dbname | wc -l` == 0 ]
 then
-    whiptail --title "ُError" --msgbox "No Table Found" 8 78
+    whiptail --title "Error" --msgbox "No Table Found" 8 78
       source ./Connect-Menu.sh
+      
 fi      
-    tablename=$(whiptail --title "Insert Into Table" --inputbox "Enter Table You Want To Insert : " 8 40 3>&1 1>&2 2>&3)
-    exitstatus=$?
-         if [ $exitstatus = 0 ]; then
-           :
-         else
-            source ./Connect-Menu.sh
-         fi
+tbname=$(whiptail --title "Insert Into Table" --inputbox "Enter Table You Want To Insert : " 8 40 3>&1 1>&2 2>&3)
+exitstatus=$?
+      if [ $exitstatus = 0 ]; then
+         ...
+      else
+         source ./Connect-Menu.sh
+      fi
 re='^[0-9]+$'
 while [[ -z $tablename ]] || [[ $tablebname == *['!''@#/$\"*{^})(+_/|,;:~`.%&.=-]>[<?']* ]] || [[ $tbname == " " ]]
-    do 
-      tablename=$(whiptail --title "Invalid Input" --inputbox "PLease Enter Table Name Again :" 8 40 3>&1 1>&2 2>&3)
-      exitstatus=$?
+do 
+    tbname=$(whiptail --title "Invalid Input" --inputbox "PLease Enter Table Name Again : " 8 40 3>&1 1>&2 2>&3)
+    exitstatus=$?
       if [ $exitstatus = 0 ]; then
-         :
+         ...
       else
          source ./Connect-Menu.sh
       fi
 
 done
 declare -a valueofcnamearray
-
+export dbname
 if [ -f ./database/$dbname/$tablename ]
 then
-    whiptail --title "ُNote" --msgbox "Primary Key Must Be Unique" 8 78
+    whiptail --title "Note" --msgbox "Primary Key Must Be Unique" 8 78
     #iterate on tablename.type to know the number of fields to insert in it
     for (( j=0 ; j < `cat ./database/$dbname/$tablename.Type | wc -w` ; j++ ))
     do
@@ -78,10 +79,10 @@ then
     done
         echo "" >> ./database/$dbname/$tablename
 else
-        whiptail --title "ُError" --msgbox "Table Not Exists" 8 78
+        whiptail --title "Error" --msgbox "Table Not Exists" 8 78
         source ./InsertIntoTable.sh
 fi
-whiptail --title "ُDone" --msgbox "Insertion Complete" 8 78
+whiptail --title "Done" --msgbox "Insertion Complete" 8 78
 source ./Connect-Menu.sh
 
 

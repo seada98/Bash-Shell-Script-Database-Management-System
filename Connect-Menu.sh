@@ -7,6 +7,7 @@ MAIN=$(whiptail --title "Welcome $USER" --menu "Choose an option" 25 60 15 \
     "6" "Delete From Table" \
     "7" "Update From Table" \
     "8" "Back to menu" 3>&1 1>&2 2>&3)
+    
 
 exitstatus=$?
 if [ $exitstatus = 0 ]; then

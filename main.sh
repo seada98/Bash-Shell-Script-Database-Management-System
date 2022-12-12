@@ -2,7 +2,7 @@ export NEWT_COLORS='
 window=,gray
 border=gray,black
 textbox=white,gray
-button=black,white
+button=black,blue
 '
 if [ ! -d "database" ]
 then

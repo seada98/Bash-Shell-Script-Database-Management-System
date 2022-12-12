@@ -1,3 +1,9 @@
+export NEWT_COLORS='
+window=,gray
+border=gray,black
+textbox=white,gray
+button=black,white
+'
 if [ ! -d "database" ]
 then
     mkdir database

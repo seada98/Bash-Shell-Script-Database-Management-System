@@ -1,35 +1,53 @@
 if [ `ls ./database/$dbname | wc -l` == 0 ]
 then
-      echo -e "No Table Found"
+whiptail --title "Error" --msgbox "No Table Found" 8 78
       source ./Connect-Menu.sh
 fi      
-
-echo -e "Update Table\n"
 
 function update()
 {
     re='^[0-9]+$'
-    read -p "Enter Table You Want To Update : " tablename
+    tablename=$(whiptail --title "Update Tables" --inputbox "Enter Table You Want To Update : " 8 40 3>&1 1>&2 2>&3)
+    exitstatus=$?
+      if [ $exitstatus = 0 ]; then
+         :
+      else
+         source ./Connect-Menu.sh
+      fi
     #export tablename
-    while [[ -z $tablename ]] || [[ $tablebname == *['!''@#/$\"*{^})(+_/=|,;:~`.%&-]>[<?']* ]]
+    while [[ -z $tablename ]] || [[ $tablebname == *['!''*\ *@#/$\"*{^})(+_/=|,;:~`.%&-]>[<?']* ]] || [[ $tablename == " " ]]
     do 
-        echo -e "Invalid Input"
-        read -p "PLease Enter Table Name Again : " tablename
+    tablename=$(whiptail --title "Invalid Input" --inputbox "PLease Enter Table Name Again : " 8 40 3>&1 1>&2 2>&3)
+    exitstatus=$?
+      if [ $exitstatus = 0 ]; then
+         :
+      else
+         source ./Connect-Menu.sh
+      fi
     done
     declare -a valueofcnamearray
     if [ -f ./database/$dbname/$tablename ]
     then
-         echo -e "You Shouldn't Change PK"
-         read -p "Please Enter Name Of Primary Key Column : " colname
-         
+     colname=$(whiptail --title "You Shouldn't Change PK" --inputbox "Please Enter Name Of Primary Key Column : " 8 40 3>&1 1>&2 2>&3)
+         exitstatus=$?
+      if [ $exitstatus = 0 ]; then
+         :
+      else
+         update
+      fi
         #print record number of the pk row
         colno=`awk -F":" '{if ($1=="'$colname'") print NR}' ./database/$dbname/$tablename`
        
         #check that is integer
         if [ -n "$colno" ]
         then 
-            read -p "Enter Value of Primary Key You Want ToUpdate: " record
-            
+            record=$(whiptail --title "Update Configuration" --inputbox "Enter Value of Primary Key You Want To Update: " 8 40 3>&1 1>&2 2>&3)
+            exitstatus=$?
+      if [ $exitstatus = 0 ]; then
+         :
+      else
+         update
+      fi
             #check if pk exists
             if [[ $record =~ [`cut -d':' -f1 ./database/$dbname/$tablename | grep -x $record`] ]]  
                 then              
@@ -38,7 +56,13 @@ function update()
                     do
                         #put value of pk in first position[0]
                         valueofcnamearray[0]=$record
-                        read -p "Enter Value Of `head -n 1 ./database/$dbname/$tablename | cut -f $((j+1)) -d ":"` column: " valueofcname
+                        valueofcname=$(whiptail --title "Update Configuration" --inputbox "Enter Value Of `head -n 1 ./database/$dbname/$tablename | cut -f $((j+1)) -d ":"` column: " 8 40 3>&1 1>&2 2>&3)
+                        exitstatus=$?
+                    if [ $exitstatus = 0 ]; then
+                            :
+                    else
+                            update
+                    fi
                         ## check datatype of record
                         function checkdatatype()
                         {
@@ -48,9 +72,13 @@ function update()
                         then 
                             while ! [[ $valueofcname =~ $re ]]
                             do
-                                echo -e "Column Must Be Integer"
-                                read -p "Enter Value Of `head -n 1 ./database/$dbname/$tablename | cut -f $((j+1)) -d ":"` column: " valueofcname
-      
+                                valueofcname=$(whiptail --title "Column Must Be Integer" --inputbox "Enter Value Of `head -n 1 ./database/$dbname/$tablename | cut -f $((j+1)) -d ":"` column: " 8 40 3>&1 1>&2 2>&3)
+                                exitstatus=$?
+                                if [ $exitstatus = 0 ]; then
+                                    :
+                                else
+                                    update
+                                fi
                             done
                         fi
                         ###check if value is string
@@ -58,9 +86,13 @@ function update()
                         then 
                             while  [[ $valueofcname =~ $re ]] || [[ -z $valueofcname ]] || [[ $valueofcname == *['!''@#/$\"*{^})(+_/=-]>[<?']* ]]
                             do
-                                echo -e "Column Must Be String"
-                                read -p "Enter Value Of `head -n 1 ./database/$dbname/$tablename | cut -f $((j+1)) -d ":"` column: " valueofcname
-        
+                                valueofcname=$(whiptail --title "Column Must Be String" --inputbox "Enter Value Of `head -n 1 ./database/$dbname/$tablename | cut -f $((j+1)) -d ":"` column: " 8 40 3>&1 1>&2 2>&3)
+                                exitstatus=$?
+                                if [ $exitstatus = 0 ]; then
+                                    :
+                                else
+                                    update
+                                fi
                             done
                         fi
                         }
@@ -78,20 +110,19 @@ function update()
                         echo -ne "${valueofcnamearray[$j]}:" >> ./database/$dbname/$tablename
                      done
                      echo "" >> ./database/$dbname/$tablename                
-                     
-                     echo -e "Value Changes Successfully"
+                     whiptail --title "Done" --msgbox "Value Changes Successfully" 8 78
                      source ./Connect-Menu.sh
             else
-                echo -e "Value Not Exists" 
+                whiptail --title "Error" --msgbox "Value Not Exists" 8 78 
                 update 
             fi   
         else
-            echo -e "Wrong Column"
+        whiptail --title "Error" --msgbox "Wrong Column" 8 78
             update
         fi
 
     else
-        echo -e "Table Not Exists"
+        whiptail --title "Error" --msgbox "Table Not Exists" 8 78
         update
     fi
     }

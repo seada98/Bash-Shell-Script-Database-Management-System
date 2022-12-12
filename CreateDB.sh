@@ -1,17 +1,28 @@
-echo -e "\nCreate Database\n"
-read -p "Enter Database Name : " name
-while [[ -z $name ]] || [[ $name == *['!''@#/$\"*{^})(+|,;:~`._%&/=-]>[<?']* ]] || [[ $name =~ [0-9] ]]
+
+name=$(whiptail --title "Create Database" --inputbox "Enter Database Name : " 8 40 3>&1 1>&2 2>&3)
+exitstatus=$?
+      if [ $exitstatus = 0 ]; then
+         :
+      else
+         source ./main.sh
+      fi
+
+while [[ -z $name ]] || [[ $name == *['!''*\ *@#/$\"*{^})(+|,;:~`._%&/=-]>[<?']* ]] || [[ $name =~ [0-9] ]]
 do 
-            echo -e "It Must Be Only Characters"
-            read -p "PLease Enter Database Name Again : " name
+    name=$(whiptail --title "It Must Be Only Characters" --inputbox "PLease Enter Database Name Again : " 8 40 3>&1 1>&2 2>&3) 
+    exitstatus=$?
+      if [ $exitstatus = 0 ]; then
+         :
+      else
+         source ./main.sh
+      fi
 done
 if [ -d ./database/$name ] 
 then
-    echo -e "Database Already Exists "
+    whiptail --title "Error" --msgbox "Database Already Exists " 8 78
     source ./CreateDB.sh
 fi
-mkdir ./database/$name  
-echo -e "Database Is Created Succuflly "	
-source ./Main_menu.sh
+    mkdir ./database/$name  
+    whiptail --title "Done" --msgbox "Database Is Created Succuflly " 8 78	
+    source ./main.sh
           
-

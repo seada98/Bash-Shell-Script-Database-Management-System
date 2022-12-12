@@ -3,19 +3,27 @@
 #check if the table empty
 if [[ `cat ./database/$dbname/$tablename | wc -l` == 1 ]]
 then 
-    echo -e "Table Empty"
+    whiptail --title "Failed" --msgbox "Table Empty" 8 78
     source ./Connect-Menu.sh
 fi    
-
-echo -e "Delete Record\n"
-
 function delete()
 {
-    read -p "Enter PK Record " record
+    record=$(whiptail --title "Delete Record" --inputbox "Enter PK Record : " 8 40 3>&1 1>&2 2>&3)
+    exitstatus=$?
+      if [ $exitstatus = 0 ]; then
+         :
+      else
+         source ./Delete_menu.sh
+      fi
     while [[ -z $record ]]
     do 
-        echo -e "Invalid Input"
-        read -p "PLease Enter PK Record Again : " Record
+    Record=$(whiptail --title "Invalid Input" --inputbox "PLease Enter PK Record Again : " 8 40 3>&1 1>&2 2>&3)
+    exitstatus=$?
+      if [ $exitstatus = 0 ]; then
+         :
+      else
+         source ./Delete_menu.sh
+      fi
     done   
     ##check that the input pk exists       
     ## if input record = cut first column from the table then search for input pk record  
@@ -26,11 +34,11 @@ function delete()
     #like 1- /n 2- /n 3- ......
             recordnumber=`awk -F":" '{if ($1=="'$record'") print NR}' ./database/$dbname/$tablename`
     #delete the recordnumber .. line 1 .or 2 .....
-            sed -i ''$recordnumber'd' ./database/$dbname/$tablename    
-            echo -e "Record Deleted Successfuly"
+            sed -i ''$recordnumber'd' ./database/$dbname/$tablename  
+            whiptail --title "Done" --msgbox "Record Deleted Successfuly" 8 78  
             source ./Connect-Menu.sh
-     else              
-        echo -e "Invalid"
+     else
+     whiptail --title "Error" --msgbox "Invalid Record" 8 78              
         #call delete function
         delete
     fi

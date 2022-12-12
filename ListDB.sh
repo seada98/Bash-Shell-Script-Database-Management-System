@@ -1,10 +1,8 @@
-echo -e "\nDataBases : \n"
 if [ `ls ./database/ | wc -l` == 0 ]
-then     
-    echo -e "\nNo Database Found" 
-    source ./Main_menu.sh
+then  
+    whiptail --title "Error" --msgbox "No Database Found" 8 78 
+    source ./main.sh
 else
-            ls ./database/
-            source ./Main_menu.sh
+    whiptail --title "Database" --msgbox "$(ls ./database/)" 8 78
+     source ./main.sh
 fi
-

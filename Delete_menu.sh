@@ -2,35 +2,48 @@
 
 if [ `ls ./database/$dbname | wc -l` == 0 ]
 then
-      echo -e "No Table Found"
+    whiptail --title "Error" --msgbox "No Table Found" 8 78
       source ./Connect-Menu.sh
 fi      
-
-echo -e "Delete From Table\n"
-
-read -p "Enter Table You Want To Delete from : " tablename
+tablename=$(whiptail --title "Delete From Table" --inputbox "Enter Table You Want To Delete from : " 8 40 3>&1 1>&2 2>&3)
+exitstatus=$?
+      if [ $exitstatus = 0 ]; then
+         :
+      else
+         source ./Connect-Menu.sh
+      fi
 export tablename
-while [[ -z $tablename ]] || [[ $tablebname == *['!''@#/$\"*{^})(+_/=-]>[<?']* ]]
+while [[ -z $tablename ]] || [[ $tablebname == *['!''*\ *@#/$\"*{^})(+_/=-]>[<?']* ]] || [[ $tablename == " " ]]
 do 
-  echo -e "Invalid Input"
-  read -p "PLease Enter Table Name Again : " tablename
+tablename=$(whiptail --title "Invalid Input" --inputbox "PLease Enter Table Name Again : " 8 40 3>&1 1>&2 2>&3)
+exitstatus=$?
+      if [ $exitstatus = 0 ]; then
+         :
+      else
+         source ./Connect-Menu.sh
+      fi
 done
 
 if [ -f ./database/$dbname/$tablename ]
 then
+    DELETE=$(whiptail --title "Delete Options" --menu "Choose an option" 15 60 5 \
+    "1" "Delete All Records" \
+    "2" "Delete Record" \
+    "3" "Back To Menu" 3>&1 1>&2 2>&3)
 
-    select choice in "Delete All Records" "Delete Record" "Back To Menu"
-    do
-        case $REPLY in
-        1) source ./DeleteAllRecord.sh ;;
-        2) source ./DeleteRecord.sh ;;
-        3) source ./Connect-Menu.sh ;;
-        *) echo -e "Invalid Option$" ;; 
-
-        esac
-
-    done
+    case $DELETE in 
+    1)
+        source ./DeleteAllRecord.sh 
+        ;;
+    2)
+        source ./DeleteRecord.sh
+        ;;
+    3)
+        source ./Connect-Menu.sh
+        ;;
+    esac
 else
-    echo -e "Table Not Exists"
+    whiptail --title "Error" --msgbox "Table Not Exist" 8 78
     source ./Delete_menu.sh
 fi	
+

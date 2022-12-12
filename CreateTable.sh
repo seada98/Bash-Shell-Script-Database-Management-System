@@ -1,71 +1,120 @@
-echo -e "Create Table\n"
-
+tbname=$(whiptail --title "Create Table" --inputbox "Enter Table Name : " 8 40 3>&1 1>&2 2>&3)
+exitstatus=$?
+      if [ $exitstatus = 0 ]; then
+         :
+      else
+         source ./Connect-Menu.sh
+      fi
 declare -a cnamearray 
 declare -a ctypearray 
 re='^[0-9]+$'
 
-read -p "Enter Table Name : " tbname
-while [[ -z $tbname ]] || [[ $tbname == *['!''@#/$\"*{^})(+_/|,;:~`.%&.=-]>[<?']* ]] || [[ $tbname =~ [0-9] ]]
+
+while [[ -z $tbname ]] || [[ $tbname == *['!''*\ *@#/$\"*{^})(+_/|,;:~`.%&.=-]>[<?']* ]] || [[ $tbname =~ [0-9]  ]] || [[ $tbname == " " ]]
 do 
-    echo -e "Invalid Input"
-    read -p "PLease Enter Table Name Again : " tbname
+    tbname=$(whiptail --title "Invalid Input" --inputbox "PLease Enter Table Name Again : " 8 40 3>&1 1>&2 2>&3)
+    exitstatus=$?
+      if [ $exitstatus = 0 ]; then
+         :
+      else
+         source ./Connect-Menu.sh
+      fi
 done
 
 while [ -f ./database/$dbname/$tbname ] 
 do
-    echo -e "Table Already Exists "
-    source ./CreateTable.sh
+    whiptail --title "Error" --msgbox "Table Already Exists" 8 78
+    source ./Connect-Menu.sh
 done
 #read column number from user
-read -p "Enter Number Of Columns : " cnumber
+cnumber=$(whiptail --title "Table Configuration" --inputbox "Enter Number Of Columns : " 8 40 3>&1 1>&2 2>&3)
+exitstatus=$?
+      if [ $exitstatus = 0 ]; then
+         :
+      else
+      rm ./database/$dbname/$tbname ./database/$dbname/$tbname.Type 
+         source ./Connect-Menu.sh
+      fi
 # function to check validation of cnumber
 function valcnumber()
 {
-  while [[ -z $cnumber ]] || [[ $cnumber == *['!''@#/$\"*{^})(+_/|,;:~`.%&.=-]>[<?']* ]] || [[ $cnumber =~ [a-zA-Z] ]]
+  while [[ -z $cnumber ]] || [[ $cnumber == *['!''*\ *@#/$\"*{^})(+_/|,;:~`.%&.=-]>[<?']* ]] || [[ $cnumber =~ [a-zA-Z] ]] || [[ $tbname == " " ]]
 do 
-    echo -e "Invalid Input It Must Be A Number"
-    read -p "PLease Enter Number Of Columns Again : " cnumber
+   cnumber=$(whiptail --title "Invalid Input It Must Be A Number" --inputbox "PLease Enter Number Of Columns Again : " 8 40 3>&1 1>&2 2>&3)
+  exitstatus=$?
+      if [ $exitstatus = 0 ]; then
+         :
+      else
+      rm ./database/$dbname/$tbname ./database/$dbname/$tbname.Type
+         source ./Connect-Menu.sh
+      fi
 done
-  #if ! [[ $cnumber =~ $re ]]
-  #then
-   # echo -e "Invalid Input It Must Be A Number"
-    #read -p "PLease Enter Number Of Columns Again : " cnumber
-    #source ./Connect-Menu.sh
-  #fi   
+
 }
 valcnumber                    #calling function
 export cnumber
-
-echo -e "First Column Must Be Primary Key"
+ whiptail --title "Table Configuration" --msgbox "First Column Must Be Primary Key" 8 78
 touch ./database/$dbname/$tbname ./database/$dbname/$tbname.Type 
 # to enter the columns name with input column numbers
 for (( i=0 ; i < $cnumber ; i++ ))
 do
-  read -p "Enter Name Of Column $((i+1)): " cname
-  while [[ -z $cname ]] || [[ $cname == *['!''@#/$\"*{^})(+_/|,;:~`.%&=-]>[<?']* ]] || [[ $cname =~ $re ]]
+  cname=$(whiptail --title "Table Configuratio" --inputbox "Enter Name Of Column $((i+1)): " 8 40 3>&1 1>&2 2>&3)
+  exitstatus=$?
+      if [ $exitstatus = 0 ]; then
+         :
+      else
+      rm ./database/$dbname/$tbname ./database/$dbname/$tbname.Type
+         source ./Connect-Menu.sh
+      fi
+  while [[ -z $cname ]] || [[ $cname == *['!''*\ *@#/$\"*{^})(+_/|,;:~`.%&=-]>[<?']* ]] || [[ $cname =~ $re ]] || [[ $tbname == " " ]]
   do 
-    echo -e "Invalid Input"
-    read -p "PLease Enter column Name Again : " cname
+    cname=$(whiptail --title "Invalid Input" --inputbox "PLease Enter column Name Again : " 8 40 3>&1 1>&2 2>&3)
+    exitstatus=$?
+      if [ $exitstatus = 0 ]; then
+         :
+      else
+      rm ./database/$dbname/$tbname ./database/$dbname/$tbname.Type
+         source ./Connect-Menu.sh
+      fi
   done
  
   ##### check if the cname is exists or not 
   while [[ "${cnamearray[$tbname]}" =~ "$cname" ]]
   do
-    echo -e "This Name Is Already Exists"
-    read -p "PLease Enter Column Name Again : " cname
+    cname=$(whiptail --title "This Name Is Already Exists" --inputbox "PLease Enter Column Name Again : " 8 40 3>&1 1>&2 2>&3)
+    exitstatus=$?
+      if [ $exitstatus = 0 ]; then
+         :
+      else
+      rm ./database/$dbname/$tbname ./database/$dbname/$tbname.Type
+         source ./Connect-Menu.sh
+      fi
   done
    #enter datatype     
-  read -p "Enter DataType Of Column $((i+1)): [string/int] " ctype  
+     ctype=$(whiptail --title "Table Configuratio" --inputbox "Enter DataType Of Column $((i+1)): [string/int] " 8 40 3>&1 1>&2 2>&3)
+     exitstatus=$?
+      if [ $exitstatus = 0 ]; then
+         :
+      else
+      rm ./database/$dbname/$tbname ./database/$dbname/$tbname.Type
+         source ./Connect-Menu.sh
+      fi
+ 
   #check on datatype
   while [[ $ctype != int ]] && [[ $ctype != string ]] 
   do
-    echo -e "Invalid DataType"   
-    read -p "Enter DataType of column $((i+1)): [string/int] " ctype
+  ctype=$(whiptail --title "Invalid DataType" --inputbox "Enter DataType of column $((i+1)): [string/int] " 8 40 3>&1 1>&2 2>&3)
+  exitstatus=$?
+      if [ $exitstatus = 0 ]; then
+         :
+      else
+      rm ./database/$dbname/$tbname ./database/$dbname/$tbname.Type
+         source ./Connect-Menu.sh
+      fi
   done
         
         cnamearray[$i]=$cname
         ctypearray[$i]=$ctype
-
 done
 #put delimeter
 for (( i=0 ; i < $cnumber ; i++ ))
@@ -73,9 +122,7 @@ do
   echo -ne "${cnamearray[$i]}:" >> ./database/$dbname/$tbname
 done
 echo "" >> ./database/$dbname/$tbname
-
 ##Append data to table and tabletype
 echo ${ctypearray[@]} >> ./database/$dbname/$tbname.Type
-
-echo -e "Congratulations Your Table Is Created"
+ whiptail --title "Table Configuration" --msgbox "Congratulations Your Table Is Created" 8 78
 source ./Connect-Menu.sh

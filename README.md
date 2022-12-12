@@ -38,7 +38,7 @@
 
 ## How To Use :
 
-- $ ./Main_menu.sh
+- $ ./main.sh
 
 ## Contributors :
 

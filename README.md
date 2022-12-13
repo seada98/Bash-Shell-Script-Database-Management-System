@@ -1,4 +1,4 @@
-# Bash Shell Script Database Management System : 
+# GUI Bash Shell Script Database Management System : 
 
 # Features :
 
